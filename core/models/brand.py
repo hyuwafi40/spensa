@@ -2,9 +2,9 @@ from django.db import models
 from solo.models import SingletonModel
 from core.models.base import TimeStampedMixin, SlugMixin
 from core.utils.constants import (
-    SCHOOL_TYPE_CHOICES,
-    SCHOOL_STATUS_CHOICES,
-    ACCREDITATION_CHOICES,
+    AccreditationChoices,
+    SchoolStatusChoices,
+    SchoolTypeChoices,
 )
 
 
@@ -40,9 +40,15 @@ class School(SingletonModel, TimeStampedMixin, SlugMixin):
     logo = models.URLField(blank=True, null=True)
     npsn = models.CharField(max_length=20, blank=True, null=True)
     nss = models.CharField(max_length=20, blank=True, null=True)
-    accreditation = models.CharField(max_length=30, choices=ACCREDITATION_CHOICES, blank=True, null=True)
-    school_type = models.CharField(max_length=20, choices=SCHOOL_TYPE_CHOICES, blank=True, null=True)
-    status = models.CharField(max_length=20, choices=SCHOOL_STATUS_CHOICES, blank=True, null=True)
+    accreditation = models.CharField(
+        max_length=30, choices=AccreditationChoices.choices, blank=True, null=True
+    )
+    school_type = models.CharField(
+        max_length=20, choices=SchoolTypeChoices.choices, blank=True, null=True
+    )
+    status = models.CharField(
+        max_length=20, choices=SchoolStatusChoices.choices, blank=True, null=True
+    )
     headmaster_name = models.CharField(max_length=150, blank=True, null=True)
     headmaster_nip = models.CharField(max_length=30, blank=True, null=True)
     established_year = models.CharField(max_length=10, blank=True, null=True)

@@ -1,4 +1,5 @@
 import uuid
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils.text import slugify
 
@@ -49,3 +50,17 @@ def set_active_year(instance):
             if instance.pk is not None:
                 queryset = queryset.exclude(pk=instance.pk)
             queryset.update(is_active=False)
+
+
+def validate_teacher(user):
+    if user is None:
+        raise ValidationError("Teacher harus dipilih.")
+    if user.job != "teacher":
+        raise ValidationError("User harus memiliki job Teacher.")
+
+
+def validate_student(user):
+    if user is None:
+        raise ValidationError("Student harus dipilih.")
+    if user.job != "student":
+        raise ValidationError("User harus memiliki job Student.")

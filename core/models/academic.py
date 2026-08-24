@@ -8,8 +8,8 @@ from django.core.validators import (
 )
 from core.models.base import TimeStampedMixin
 from core.models.account import CustomUser
-from core.utils.constants import CLASS_LEVEL_CHOICES, TERM_CHOICES
-from core.utils.services import set_active_year
+from core.utils.constants import ClassLevelChoices, JobChoices, TermChoices
+from core.utils.services import set_active_year, validate_student, validate_teacher
 from core.utils.validators import validate_year
 
 
@@ -27,7 +27,7 @@ class Year(TimeStampedMixin):
 
 
 class Term(TimeStampedMixin):
-    name = models.CharField(max_length=20, choices=TERM_CHOICES, unique=True)
+    name = models.CharField(max_length=20, choices=TermChoices.choices, unique=True)
 
     class Meta:
         verbose_name = "Semester"
@@ -54,7 +54,7 @@ class Subject(TimeStampedMixin):
 
 
 class Classroom(TimeStampedMixin):
-    grade = models.CharField(max_length=2, choices=CLASS_LEVEL_CHOICES)
+    grade = models.CharField(max_length=2, choices=ClassLevelChoices.choices)
     name = models.CharField(max_length=100)
 
     class Meta:
@@ -112,7 +112,7 @@ class ActiveSubject(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": "teacher"},
+        limit_choices_to={"job": JobChoices.TEACHER},
         related_name="active_subjects",
     )
 
@@ -122,8 +122,7 @@ class ActiveSubject(TimeStampedMixin):
         unique_together = ("active_year", "subject", "classroom", "teacher")
 
     def clean(self):
-        if self.teacher_id and self.teacher.job != "teacher":
-            raise ValidationError("Teacher harus memiliki job Teacher.")
+        validate_teacher(self.teacher)
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -147,7 +146,7 @@ class ActiveClassroom(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": "teacher"},
+        limit_choices_to={"job": JobChoices.TEACHER},
         related_name="active_classrooms",
     )
     quota = models.PositiveIntegerField(
@@ -167,8 +166,7 @@ class ActiveClassroom(TimeStampedMixin):
         ]
 
     def clean(self):
-        if self.teacher_id and self.teacher.job != "teacher":
-            raise ValidationError("Teacher harus memiliki job Teacher.")
+        validate_teacher(self.teacher)
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -187,7 +185,7 @@ class ActiveStudent(TimeStampedMixin):
     student = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": "student"},
+        limit_choices_to={"job": JobChoices.STUDENT},
         related_name="active_students",
     )
     active_year = models.ForeignKey(
@@ -209,8 +207,7 @@ class ActiveStudent(TimeStampedMixin):
         ]
 
     def clean(self):
-        if self.student_id and self.student.job != "student":
-            raise ValidationError("Student harus memiliki job Student.")
+        validate_student(self.student)
         if self.classroom_id:
             self.active_year = self.classroom.active_year
             if (

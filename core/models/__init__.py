@@ -10,6 +10,20 @@ from .academic import (
     ActiveClassroom,
     ActiveStudent,
 )
+from .learning import (
+    Material,
+    Assignment,
+    AssignmentSubmission,
+    QuestionBank,
+    Question,
+    AnswerOption,
+    Quiz,
+    QuizAttempt,
+    Exam,
+    ExamAttempt,
+    Grade,
+    ReportCard,
+)
 
 __all__ = [
     "CustomUser",
@@ -24,4 +38,16 @@ __all__ = [
     "ActiveSubject",
     "ActiveClassroom",
     "ActiveStudent",
+    "Material",
+    "Assignment",
+    "AssignmentSubmission",
+    "QuestionBank",
+    "Question",
+    "AnswerOption",
+    "Quiz",
+    "QuizAttempt",
+    "Exam",
+    "ExamAttempt",
+    "Grade",
+    "ReportCard",
 ]

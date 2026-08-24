@@ -10,6 +10,20 @@ from .academic import (
     ActiveClassroomAdmin,
     ActiveStudentAdmin,
 )
+from .learning import (
+    MaterialAdmin,
+    AssignmentAdmin,
+    AssignmentSubmissionAdmin,
+    QuestionBankAdmin,
+    QuestionAdmin,
+    AnswerOptionAdmin,
+    QuizAdmin,
+    QuizAttemptAdmin,
+    ExamAdmin,
+    ExamAttemptAdmin,
+    GradeAdmin,
+    ReportCardAdmin,
+)
 
 __all__ = [
     "CustomUserAdmin",
@@ -23,4 +37,16 @@ __all__ = [
     "ActiveSubjectAdmin",
     "ActiveClassroomAdmin",
     "ActiveStudentAdmin",
+    "MaterialAdmin",
+    "AssignmentAdmin",
+    "AssignmentSubmissionAdmin",
+    "QuestionBankAdmin",
+    "QuestionAdmin",
+    "AnswerOptionAdmin",
+    "QuizAdmin",
+    "QuizAttemptAdmin",
+    "ExamAdmin",
+    "ExamAttemptAdmin",
+    "GradeAdmin",
+    "ReportCardAdmin",
 ]

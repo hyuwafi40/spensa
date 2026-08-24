@@ -11,6 +11,7 @@ from core.models.academic import (
     ActiveStudent,
 )
 from core.models.account import CustomUser
+from core.utils.constants import JobChoices
 
 
 @admin.register(Year)
@@ -59,7 +60,7 @@ class ActiveSubjectAdmin(BaseModelAdminMixin, admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "teacher":
-            kwargs["queryset"] = CustomUser.objects.filter(job="teacher")
+            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.TEACHER)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -77,7 +78,7 @@ class ActiveClassroomAdmin(BaseModelAdminMixin, admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "teacher":
-            kwargs["queryset"] = CustomUser.objects.filter(job="teacher")
+            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.TEACHER)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -91,5 +92,5 @@ class ActiveStudentAdmin(BaseModelAdminMixin, admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "student":
-            kwargs["queryset"] = CustomUser.objects.filter(job="student")
+            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.STUDENT)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)

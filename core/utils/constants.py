@@ -1,79 +1,124 @@
-JOB_CHOICES = [
-    ("developer", "Developer"),
-    ("administrator", "Administrator"),
-    ("teacher", "Teacher"),
-    ("student", "Student"),
-]
+from django.db import models
 
-GENDER_CHOICES = [
-    ("male", "Laki-laki"),
-    ("female", "Perempuan"),
-]
 
-RELIGION_CHOICES = [
-    ("islam", "Islam"),
-    ("christian", "Kristen"),
-    ("catholic", "Katolik"),
-    ("hindu", "Hindu"),
-    ("buddha", "Buddha"),
-    ("konghucu", "Konghucu"),
-]
+class JobChoices(models.TextChoices):
+    DEVELOPER = "developer", "Developer"
+    ADMINISTRATOR = "administrator", "Administrator"
+    TEACHER = "teacher", "Teacher"
+    STUDENT = "student", "Student"
 
-CLASS_LEVEL_CHOICES = [
-    ("1", "Kelas 1"),
-    ("2", "Kelas 2"),
-    ("3", "Kelas 3"),
-    ("4", "Kelas 4"),
-    ("5", "Kelas 5"),
-    ("6", "Kelas 6"),
-    ("7", "Kelas 7"),
-    ("8", "Kelas 8"),
-    ("9", "Kelas 9"),
-    ("10", "Kelas 10"),
-    ("11", "Kelas 11"),
-    ("12", "Kelas 12"),
-]
 
-SUBJECT_CHOICES = [
-    ("matematika", "Matematika"),
-    ("bahasa_indonesia", "Bahasa Indonesia"),
-    ("bahasa_inggris", "Bahasa Inggris"),
-    ("ipa", "IPA"),
-    ("ips", "IPS"),
-    ("ppkn", "PPKn"),
-    ("seni_budaya", "Seni Budaya"),
-    ("penjaskes", "Penjaskes"),
-    ("informatika", "Informatika"),
-    ("agama", "Agama"),
-    ("lainnya", "Lainnya"),
-]
+class GenderChoices(models.TextChoices):
+    MALE = "male", "Laki-laki"
+    FEMALE = "female", "Perempuan"
 
-SCHOOL_TYPE_CHOICES = [
-    ("sd", "SD"),
-    ("smp", "SMP"),
-    ("sma", "SMA"),
-    ("smk", "SMK"),
-    ("mi", "MI"),
-    ("mts", "MTs"),
-    ("ma", "MA"),
-    ("lainnya", "Lainnya"),
-]
 
-SCHOOL_STATUS_CHOICES = [
-    ("negeri", "Negeri"),
-    ("swasta", "Swasta"),
-]
+class ReligionChoices(models.TextChoices):
+    ISLAM = "islam", "Islam"
+    CHRISTIAN = "christian", "Kristen"
+    CATHOLIC = "catholic", "Katolik"
+    HINDU = "hindu", "Hindu"
+    BUDDHA = "buddha", "Buddha"
+    KONGHUCU = "konghucu", "Konghucu"
 
-ACCREDITATION_CHOICES = [
-    ("a", "A"),
-    ("b", "B"),
-    ("c", "C"),
-    ("unggul", "Unggul"),
-    ("baik", "Baik"),
-    ("belum_terakreditasi", "Belum Terakreditasi"),
-]
 
-TERM_CHOICES = [
-    ("ganjil", "Ganjil"),
-    ("genap", "Genap"),
-]
+class ClassLevelChoices(models.TextChoices):
+    CLASS_1 = "1", "Kelas 1"
+    CLASS_2 = "2", "Kelas 2"
+    CLASS_3 = "3", "Kelas 3"
+    CLASS_4 = "4", "Kelas 4"
+    CLASS_5 = "5", "Kelas 5"
+    CLASS_6 = "6", "Kelas 6"
+    CLASS_7 = "7", "Kelas 7"
+    CLASS_8 = "8", "Kelas 8"
+    CLASS_9 = "9", "Kelas 9"
+    CLASS_10 = "10", "Kelas 10"
+    CLASS_11 = "11", "Kelas 11"
+    CLASS_12 = "12", "Kelas 12"
+
+
+class SubjectChoices(models.TextChoices):
+    MATEMATIKA = "matematika", "Matematika"
+    BAHASA_INDONESIA = "bahasa_indonesia", "Bahasa Indonesia"
+    BAHASA_INGGRIS = "bahasa_inggris", "Bahasa Inggris"
+    IPA = "ipa", "IPA"
+    IPS = "ips", "IPS"
+    PPKN = "ppkn", "PPKn"
+    SENI_BUDAYA = "seni_budaya", "Seni Budaya"
+    PENJASKES = "penjaskes", "Penjaskes"
+    INFORMATIKA = "informatika", "Informatika"
+    AGAMA = "agama", "Agama"
+    LAINNYA = "lainnya", "Lainnya"
+
+
+class SchoolTypeChoices(models.TextChoices):
+    SD = "sd", "SD"
+    SMP = "smp", "SMP"
+    SMA = "sma", "SMA"
+    SMK = "smk", "SMK"
+    MI = "mi", "MI"
+    MTS = "mts", "MTs"
+    MA = "ma", "MA"
+    LAINNYA = "lainnya", "Lainnya"
+
+
+class SchoolStatusChoices(models.TextChoices):
+    NEGERI = "negeri", "Negeri"
+    SWASTA = "swasta", "Swasta"
+
+
+class AccreditationChoices(models.TextChoices):
+    A = "a", "A"
+    B = "b", "B"
+    C = "c", "C"
+    UNGGUL = "unggul", "Unggul"
+    BAIK = "baik", "Baik"
+    BELUM_TERAKREDITASI = "belum_terakreditasi", "Belum Terakreditasi"
+
+
+class TermChoices(models.TextChoices):
+    GANJIL = "ganjil", "Ganjil"
+    GENAP = "genap", "Genap"
+
+
+class QuestionTypeChoices(models.TextChoices):
+    MULTIPLE_CHOICE = "MC", "Pilihan Ganda"
+    ESSAY = "ES", "Esai"
+    TRUE_FALSE = "TF", "Benar/Salah"
+    SHORT_ANSWER = "SA", "Jawaban Singkat"
+
+
+class DifficultyChoices(models.TextChoices):
+    EASY = "Easy", "Mudah"
+    MEDIUM = "Medium", "Sedang"
+    HARD = "Hard", "Sulit"
+
+
+class AssignmentTypeChoices(models.TextChoices):
+    INDIVIDUAL = "Individual", "Individu"
+    GROUP = "Group", "Kelompok"
+
+
+class AssignmentStatusChoices(models.TextChoices):
+    DRAFT = "Draft", "Draf"
+    PUBLISHED = "Published", "Diterbitkan"
+    CLOSED = "Closed", "Ditutup"
+
+
+class SubmissionStatusChoices(models.TextChoices):
+    SUBMITTED = "Submitted", "Terkumpul"
+    RETURNED = "Returned", "Dikembalikan"
+    GRADED = "Graded", "Dinilai"
+
+
+class QuizStatusChoices(models.TextChoices):
+    DRAFT = "Draft", "Draf"
+    PUBLISHED = "Published", "Diterbitkan"
+    CLOSED = "Closed", "Ditutup"
+
+
+class ExamStatusChoices(models.TextChoices):
+    DRAFT = "Draft", "Draf"
+    PUBLISHED = "Published", "Diterbitkan"
+    ONGOING = "Ongoing", "Sedang Berlangsung"
+    FINISHED = "Finished", "Selesai"

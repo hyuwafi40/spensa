@@ -2,11 +2,11 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from core.models.base import TimeStampedMixin
 from core.utils.constants import (
-    CLASS_LEVEL_CHOICES,
-    GENDER_CHOICES,
-    JOB_CHOICES,
-    RELIGION_CHOICES,
-    SUBJECT_CHOICES,
+    ClassLevelChoices,
+    GenderChoices,
+    JobChoices,
+    ReligionChoices,
+    SubjectChoices,
 )
 from core.utils.managers import CustomUserManager
 from core.utils.services import set_role_flags
@@ -14,7 +14,9 @@ from core.utils.validators import validate_numeric
 
 
 class CustomUser(AbstractUser):
-    job = models.CharField(max_length=20, choices=JOB_CHOICES, default="student")
+    job = models.CharField(
+        max_length=20, choices=JobChoices.choices, default=JobChoices.STUDENT
+    )
 
     objects = CustomUserManager()
 
@@ -34,23 +36,33 @@ class CustomUser(AbstractUser):
 
 
 class Profile(TimeStampedMixin):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, related_name="profile"
+    )
     code = models.CharField(max_length=50, unique=True, validators=[validate_numeric])
     photo = models.URLField(blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True, null=True)
+    gender = models.CharField(
+        max_length=10, choices=GenderChoices.choices, blank=True, null=True
+    )
     birth_date = models.DateField(blank=True, null=True)
     birth_place = models.CharField(max_length=100, blank=True, null=True)
-    religion = models.CharField(max_length=20, choices=RELIGION_CHOICES, blank=True, null=True)
+    religion = models.CharField(
+        max_length=20, choices=ReligionChoices.choices, blank=True, null=True
+    )
     nisn = models.CharField(max_length=50, blank=True, null=True)
     nis = models.CharField(max_length=50, blank=True, null=True)
-    class_level = models.CharField(max_length=20, choices=CLASS_LEVEL_CHOICES, blank=True, null=True)
+    class_level = models.CharField(
+        max_length=20, choices=ClassLevelChoices.choices, blank=True, null=True
+    )
     major = models.CharField(max_length=100, blank=True, null=True)
     parent_name = models.CharField(max_length=150, blank=True, null=True)
     parent_phone = models.CharField(max_length=20, blank=True, null=True)
     nuptk = models.CharField(max_length=50, blank=True, null=True)
-    subject = models.CharField(max_length=50, choices=SUBJECT_CHOICES, blank=True, null=True)
+    subject = models.CharField(
+        max_length=50, choices=SubjectChoices.choices, blank=True, null=True
+    )
     position = models.CharField(max_length=100, blank=True, null=True)
     institution = models.CharField(max_length=150, blank=True, null=True)
     nip = models.CharField(max_length=50, blank=True, null=True)
