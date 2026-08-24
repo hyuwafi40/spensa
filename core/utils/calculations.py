@@ -28,6 +28,9 @@ def calculate_grade(daily_score, midterm_score, final_score):
 def calculate_daily_score(student, subject, active_year):
     from core.models.learning import AssignmentSubmission, QuizAttempt
 
+    if not student or not subject or not active_year:
+        return Decimal("0.00")
+
     assignment_avg = (
         AssignmentSubmission.objects.filter(
             assignment__subject=subject,

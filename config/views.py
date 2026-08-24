@@ -3,6 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views import View
+from core.utils.security import (
+    clear_login_attempts,
+    is_login_blocked,
+    record_failed_login,
+)
 
 
 class IndexView(View):
@@ -16,9 +21,18 @@ class IndexView(View):
     def post(self, request):
         username = request.POST.get("username")
         password = request.POST.get("password")
+
+        if is_login_blocked(request, username):
+            messages.error(
+                request,
+                "Terlalu banyak percobaan login. Silakan coba lagi dalam 5 menit.",
+            )
+            return render(request, self.template_name)
+
         user = authenticate(request, username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
+            clear_login_attempts(request, username)
             messages.success(
                 request, f"Selamat datang, {user.get_full_name() or user.username}!"
             )
@@ -33,11 +47,13 @@ class IndexView(View):
         if user is not None and not user.is_active:
             messages.error(request, "Akun Anda telah dinonaktifkan.")
         else:
+            record_failed_login(request, username)
             messages.error(request, "Username atau Password salah!")
         return render(request, self.template_name)
 
 
 def logout_view(request):
-    logout(request)
-    messages.info(request, "Anda telah keluar.")
+    if request.method == "POST":
+        logout(request)
+        messages.info(request, "Anda telah keluar.")
     return redirect("login")

@@ -69,6 +69,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {"default": dj_database_url.parse(env_config("DJANGO_DATABASE_URL"))}
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "spensa-rate-limit",
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -76,12 +83,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-AUTH_USER_MODEL = "core.CustomUser"
-
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "guardian.backends.ObjectPermissionBackend",
 ]
+
+AUTH_USER_MODEL = "core.CustomUser"
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "core:index"
