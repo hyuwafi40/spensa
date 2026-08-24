@@ -1,0 +1,9 @@
+{% extends "core/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block heading %}
+    <h1>Dashboard Core</h1>
+{% endblock %}
+{% block content %}
+    <p>Selamat datang di halaman utama core.</p>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

@@ -1,0 +1,132 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dylib
+*.dll
+*.egg-info/
+dist/
+build/
+*.spec
+*.manifest
+*.whl
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyInstaller
+setup.spec
+
+# Virtual Environment
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+/media/
+/staticfiles/
+/static/CACHE/
+*.pot
+*.mo
+.coverage
+coverage.xml
+*.cover
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+
+# Custom project (catatan pribadi)
+/assets/
+/backup/
+/bin/
+.djlintrc
+
+# Environment files (JANGAN PERNAH DI-UPLOAD)
+.env
+.env.local
+.env.production
+.env.staging
+
+# Deploy script (mengandung kredensial, jangan di-upload)
+deploy_vps.sh
+deploy_vps.local.sh
+
+# Vercel
+.vercel/
+vercel.log
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.ropeproject/
+.classpath
+.project
+.settings/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Package Managers
+.pip/
+
+# Security & Secrets
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Logs & Temp
+logs/
+temp/
+tmp/
+
+# Database
+*.sqlite3
+*.db
+*.mdb
+*.accdb
+
+# Compressed
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.gz
+
+# Testing
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Misc
+*.lock
+*.pid
+*.pid.lock
+*.seed
+*.pub

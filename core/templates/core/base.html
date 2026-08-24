@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Spensa{% endblock %}</title>
+        {% block meta %}{% endblock %}
+        {% block extra_css %}{% endblock %}
+    </head>
+    <body>
+        {% block heading %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% block modal %}{% endblock %}
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>
