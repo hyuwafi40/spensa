@@ -66,6 +66,11 @@ def validate_student(user):
         raise ValidationError("User harus memiliki job Student.")
 
 
+def validate_time_range(start_time, end_time):
+    if start_time and end_time and start_time >= end_time:
+        raise ValidationError("Waktu mulai harus sebelum waktu selesai.")
+
+
 def record_journal(user, activity, module, target_name="", reference_id=None, notes=""):
     from core.models.journal import TeacherJournal, StudentJournal
 

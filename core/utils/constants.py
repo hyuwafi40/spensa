@@ -117,13 +117,6 @@ class QuizStatusChoices(models.TextChoices):
     CLOSED = "Closed", "Ditutup"
 
 
-class ExamStatusChoices(models.TextChoices):
-    DRAFT = "Draft", "Draf"
-    PUBLISHED = "Published", "Diterbitkan"
-    ONGOING = "Ongoing", "Sedang Berlangsung"
-    FINISHED = "Finished", "Selesai"
-
-
 class JournalActivityChoices(models.TextChoices):
     CREATE = "create", "Membuat"
     UPDATE = "update", "Memperbarui"
@@ -154,3 +147,7 @@ class JournalModuleChoices(models.TextChoices):
     BRAND = "brand", "Brand"
     PROFILE = "profile", "Profil"
     OTHER = "other", "Lainnya"
+
+
+TEACHER_LIMIT = {"job": JobChoices.TEACHER}
+STUDENT_LIMIT = {"job": JobChoices.STUDENT}

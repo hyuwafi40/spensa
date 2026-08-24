@@ -1,24 +1,25 @@
-from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from core.models.account import CustomUser
 from core.models.academic import Classroom, Subject, Term, Year
-from core.models.base import TimeStampedMixin
-from core.utils.calculations import calculate_grade
+from core.models.base import (
+    StudentValidationMixin,
+    TeacherValidationMixin,
+    TimeRangeValidationMixin,
+    TimeStampedMixin,
+)
 from core.utils.constants import (
     AssignmentStatusChoices,
     AssignmentTypeChoices,
     DifficultyChoices,
-    ExamStatusChoices,
-    JobChoices,
     QuestionTypeChoices,
     QuizStatusChoices,
     SubmissionStatusChoices,
+    TEACHER_LIMIT,
+    STUDENT_LIMIT,
 )
-from core.utils.services import validate_student, validate_teacher
 
 
-class Material(TimeStampedMixin):
+class Material(TeacherValidationMixin, TimeStampedMixin):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     file = models.FileField(upload_to="materials/%Y/%m/%d/")
@@ -31,7 +32,7 @@ class Material(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
+        limit_choices_to=TEACHER_LIMIT,
         related_name="materials",
     )
     classroom = models.ForeignKey(
@@ -47,13 +48,6 @@ class Material(TimeStampedMixin):
         related_name="materials",
     )
 
-    def clean(self):
-        validate_teacher(self.teacher)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = "Materi Ajar"
         verbose_name_plural = "Materi Ajar"
@@ -62,7 +56,7 @@ class Material(TimeStampedMixin):
         return self.title
 
 
-class Assignment(TimeStampedMixin):
+class Assignment(TeacherValidationMixin, TimeStampedMixin):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     type = models.CharField(max_length=20, choices=AssignmentTypeChoices.choices)
@@ -74,7 +68,7 @@ class Assignment(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
+        limit_choices_to=TEACHER_LIMIT,
         related_name="assignments",
     )
     classroom = models.ForeignKey(
@@ -84,6 +78,11 @@ class Assignment(TimeStampedMixin):
     )
     academic_year = models.ForeignKey(
         Year,
+        on_delete=models.PROTECT,
+        related_name="assignments",
+    )
+    term = models.ForeignKey(
+        Term,
         on_delete=models.PROTECT,
         related_name="assignments",
     )
@@ -98,13 +97,6 @@ class Assignment(TimeStampedMixin):
         default=AssignmentStatusChoices.DRAFT,
     )
 
-    def clean(self):
-        validate_teacher(self.teacher)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = "Tugas"
         verbose_name_plural = "Tugas"
@@ -113,7 +105,7 @@ class Assignment(TimeStampedMixin):
         return self.title
 
 
-class AssignmentSubmission(TimeStampedMixin):
+class AssignmentSubmission(StudentValidationMixin, TimeStampedMixin):
     assignment = models.ForeignKey(
         Assignment,
         on_delete=models.CASCADE,
@@ -122,7 +114,7 @@ class AssignmentSubmission(TimeStampedMixin):
     student = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        limit_choices_to={"job": JobChoices.STUDENT},
+        limit_choices_to=STUDENT_LIMIT,
         related_name="assignment_submissions",
     )
     file_upload = models.FileField(
@@ -138,13 +130,6 @@ class AssignmentSubmission(TimeStampedMixin):
         default=SubmissionStatusChoices.SUBMITTED,
     )
 
-    def clean(self):
-        validate_student(self.student)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = "Pengumpulan Tugas"
         verbose_name_plural = "Pengumpulan Tugas"
@@ -159,7 +144,7 @@ class AssignmentSubmission(TimeStampedMixin):
         return f"{self.assignment.title} - {self.student.username}"
 
 
-class QuestionBank(TimeStampedMixin):
+class QuestionBank(TeacherValidationMixin, TimeStampedMixin):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     subject = models.ForeignKey(
@@ -170,17 +155,10 @@ class QuestionBank(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
+        limit_choices_to=TEACHER_LIMIT,
         related_name="question_banks",
     )
     is_public = models.BooleanField(default=False)
-
-    def clean(self):
-        validate_teacher(self.teacher)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Bank Soal"
@@ -190,7 +168,7 @@ class QuestionBank(TimeStampedMixin):
         return self.name
 
 
-class Question(TimeStampedMixin):
+class Question(TeacherValidationMixin, TimeStampedMixin):
     question_bank = models.ForeignKey(
         QuestionBank,
         on_delete=models.CASCADE,
@@ -206,7 +184,7 @@ class Question(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
+        limit_choices_to=TEACHER_LIMIT,
         related_name="questions",
     )
     question_text = models.TextField()
@@ -217,13 +195,6 @@ class Question(TimeStampedMixin):
         default=DifficultyChoices.MEDIUM,
     )
     points = models.DecimalField(max_digits=5, decimal_places=2, default=1.00)
-
-    def clean(self):
-        validate_teacher(self.teacher)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Soal"
@@ -251,7 +222,7 @@ class AnswerOption(TimeStampedMixin):
         return f"{self.question.question_text[:30]} - {self.text[:30]}"
 
 
-class Quiz(TimeStampedMixin):
+class Quiz(TeacherValidationMixin, TimeRangeValidationMixin, TimeStampedMixin):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     subject = models.ForeignKey(
@@ -262,7 +233,7 @@ class Quiz(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
+        limit_choices_to=TEACHER_LIMIT,
         related_name="quizzes",
     )
     classroom = models.ForeignKey(
@@ -272,6 +243,11 @@ class Quiz(TimeStampedMixin):
     )
     academic_year = models.ForeignKey(
         Year,
+        on_delete=models.PROTECT,
+        related_name="quizzes",
+    )
+    term = models.ForeignKey(
+        Term,
         on_delete=models.PROTECT,
         related_name="quizzes",
     )
@@ -285,15 +261,6 @@ class Quiz(TimeStampedMixin):
         default=QuizStatusChoices.DRAFT,
     )
 
-    def clean(self):
-        validate_teacher(self.teacher)
-        if self.start_time and self.end_time and self.start_time >= self.end_time:
-            raise ValidationError("Waktu mulai harus sebelum waktu selesai.")
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = "Kuis"
         verbose_name_plural = "Kuis"
@@ -302,7 +269,7 @@ class Quiz(TimeStampedMixin):
         return self.title
 
 
-class QuizAttempt(TimeStampedMixin):
+class QuizAttempt(StudentValidationMixin, TimeStampedMixin):
     quiz = models.ForeignKey(
         Quiz,
         on_delete=models.CASCADE,
@@ -311,7 +278,7 @@ class QuizAttempt(TimeStampedMixin):
     student = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        limit_choices_to={"job": JobChoices.STUDENT},
+        limit_choices_to=STUDENT_LIMIT,
         related_name="quiz_attempts",
     )
     start_time = models.DateTimeField(auto_now_add=True)
@@ -319,13 +286,6 @@ class QuizAttempt(TimeStampedMixin):
     score = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     is_completed = models.BooleanField(default=False)
     attempt_number = models.PositiveSmallIntegerField(default=1)
-
-    def clean(self):
-        validate_student(self.student)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Percobaan Kuis"
@@ -339,208 +299,3 @@ class QuizAttempt(TimeStampedMixin):
 
     def __str__(self):
         return f"{self.quiz.title} - {self.student.username} - Attempt {self.attempt_number}"
-
-
-class Exam(TimeStampedMixin):
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    subject = models.ForeignKey(
-        Subject,
-        on_delete=models.PROTECT,
-        related_name="exams",
-    )
-    teacher = models.ForeignKey(
-        CustomUser,
-        on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
-        related_name="exams",
-    )
-    classroom = models.ForeignKey(
-        Classroom,
-        on_delete=models.PROTECT,
-        related_name="exams",
-    )
-    academic_year = models.ForeignKey(
-        Year,
-        on_delete=models.PROTECT,
-        related_name="exams",
-    )
-    duration_minutes = models.PositiveSmallIntegerField(default=90)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    randomize_questions = models.BooleanField(default=False)
-    proctoring_enabled = models.BooleanField(default=False)
-    status = models.CharField(
-        max_length=20,
-        choices=ExamStatusChoices.choices,
-        default=ExamStatusChoices.DRAFT,
-    )
-
-    def clean(self):
-        validate_teacher(self.teacher)
-        if self.start_time >= self.end_time:
-            raise ValidationError("Waktu mulai harus sebelum waktu selesai.")
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "Ujian"
-        verbose_name_plural = "Ujian"
-
-    def __str__(self):
-        return self.title
-
-
-class ExamAttempt(TimeStampedMixin):
-    exam = models.ForeignKey(
-        Exam,
-        on_delete=models.CASCADE,
-        related_name="attempts",
-    )
-    student = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        limit_choices_to={"job": JobChoices.STUDENT},
-        related_name="exam_attempts",
-    )
-    start_time = models.DateTimeField(auto_now_add=True)
-    end_time = models.DateTimeField(null=True, blank=True)
-    score = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    is_completed = models.BooleanField(default=False)
-
-    def clean(self):
-        validate_student(self.student)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "Percobaan Ujian"
-        verbose_name_plural = "Percobaan Ujian"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["exam", "student"],
-                name="unique_exam_attempt",
-            )
-        ]
-
-    def __str__(self):
-        return f"{self.exam.title} - {self.student.username}"
-
-
-class Grade(TimeStampedMixin):
-    student = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        limit_choices_to={"job": JobChoices.STUDENT},
-        related_name="grades",
-    )
-    subject = models.ForeignKey(
-        Subject,
-        on_delete=models.PROTECT,
-        related_name="grades",
-    )
-    term = models.ForeignKey(
-        Term,
-        on_delete=models.PROTECT,
-        related_name="grades",
-    )
-    teacher = models.ForeignKey(
-        CustomUser,
-        on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
-        related_name="graded_subjects",
-    )
-    daily_score = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        null=True,
-        blank=True,
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-    )
-    midterm_score = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        null=True,
-        blank=True,
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-    )
-    final_score = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        null=True,
-        blank=True,
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-    )
-    total_score = models.DecimalField(
-        max_digits=5, decimal_places=2, null=True, blank=True, editable=False
-    )
-    grade_letter = models.CharField(max_length=2, blank=True, editable=False)
-
-    def clean(self):
-        validate_student(self.student)
-        validate_teacher(self.teacher)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        self.total_score, self.grade_letter = calculate_grade(
-            self.daily_score, self.midterm_score, self.final_score
-        )
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "Nilai"
-        verbose_name_plural = "Nilai"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["student", "subject", "term"],
-                name="unique_grade",
-            )
-        ]
-
-    def __str__(self):
-        return f"{self.student.username} - {self.subject.name} - {self.term.name}"
-
-
-class ReportCard(TimeStampedMixin):
-    student = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        limit_choices_to={"job": JobChoices.STUDENT},
-        related_name="report_cards",
-    )
-    term = models.ForeignKey(
-        Term,
-        on_delete=models.PROTECT,
-        related_name="report_cards",
-    )
-    file = models.FileField(upload_to="report_cards/%Y/%m/%d/")
-    generated_at = models.DateTimeField(auto_now_add=True)
-    generated_by = models.ForeignKey(
-        CustomUser,
-        on_delete=models.PROTECT,
-        limit_choices_to={
-            "job__in": [
-                JobChoices.TEACHER,
-                JobChoices.ADMINISTRATOR,
-                JobChoices.DEVELOPER,
-            ]
-        },
-        related_name="generated_report_cards",
-    )
-
-    class Meta:
-        verbose_name = "Rapor"
-        verbose_name_plural = "Rapor"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["student", "term"],
-                name="unique_report_card",
-            )
-        ]
-
-    def __str__(self):
-        return f"{self.student.username} - {self.term.name}"

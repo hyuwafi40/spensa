@@ -1,6 +1,11 @@
 from django.db import models
 from core.utils.constants import JournalActivityChoices, JournalModuleChoices
-from core.utils.services import generate_unique_slug
+from core.utils.services import (
+    generate_unique_slug,
+    validate_student,
+    validate_teacher,
+    validate_time_range,
+)
 
 
 class TimeStampedMixin(models.Model):
@@ -26,6 +31,32 @@ class SlugMixin(models.Model):
 
     def get_slug_source(self):
         raise NotImplementedError("Subclass must implement get_slug_source()")
+
+
+class TeacherValidationMixin:
+    def clean(self):
+        validate_teacher(self.teacher)
+        super().clean()
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+
+class StudentValidationMixin:
+    def clean(self):
+        validate_student(self.student)
+        super().clean()
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+
+class TimeRangeValidationMixin:
+    def clean(self):
+        validate_time_range(self.start_time, self.end_time)
+        super().clean()
 
 
 class BaseJournal(TimeStampedMixin):

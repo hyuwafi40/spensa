@@ -19,11 +19,8 @@ from .learning import (
     AnswerOption,
     Quiz,
     QuizAttempt,
-    Exam,
-    ExamAttempt,
-    Grade,
-    ReportCard,
 )
+from .assessment import Assessment
 from .journal import TeacherJournal, StudentJournal
 
 __all__ = [
@@ -47,10 +44,7 @@ __all__ = [
     "AnswerOption",
     "Quiz",
     "QuizAttempt",
-    "Exam",
-    "ExamAttempt",
-    "Grade",
-    "ReportCard",
+    "Assessment",
     "TeacherJournal",
     "StudentJournal",
 ]

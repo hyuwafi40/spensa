@@ -19,11 +19,8 @@ from .learning import (
     AnswerOptionAdmin,
     QuizAdmin,
     QuizAttemptAdmin,
-    ExamAdmin,
-    ExamAttemptAdmin,
-    GradeAdmin,
-    ReportCardAdmin,
 )
+from .assessment import AssessmentAdmin
 from .journal import TeacherJournalAdmin, StudentJournalAdmin
 
 __all__ = [
@@ -46,10 +43,7 @@ __all__ = [
     "AnswerOptionAdmin",
     "QuizAdmin",
     "QuizAttemptAdmin",
-    "ExamAdmin",
-    "ExamAttemptAdmin",
-    "GradeAdmin",
-    "ReportCardAdmin",
+    "AssessmentAdmin",
     "TeacherJournalAdmin",
     "StudentJournalAdmin",
 ]

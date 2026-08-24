@@ -10,10 +10,6 @@ from core.models.learning import (
     AnswerOption,
     Quiz,
     QuizAttempt,
-    Exam,
-    ExamAttempt,
-    Grade,
-    ReportCard,
 )
 from core.utils.constants import JobChoices
 
@@ -47,13 +43,14 @@ class AssignmentAdmin(BaseModelAdminMixin, admin.ModelAdmin):
         "subject",
         "teacher",
         "classroom",
+        "term",
         "due_date",
         "status",
         "updated_at",
     )
-    list_filter = ("type", "status", "subject", "academic_year")
+    list_filter = ("type", "status", "subject", "academic_year", "term")
     search_fields = ("title", "teacher__username", "classroom__name")
-    list_select_related = ("subject", "teacher", "classroom", "academic_year")
+    list_select_related = ("subject", "teacher", "classroom", "academic_year", "term")
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "teacher":
@@ -143,14 +140,15 @@ class QuizAdmin(BaseModelAdminMixin, admin.ModelAdmin):
         "subject",
         "teacher",
         "classroom",
+        "term",
         "start_time",
         "end_time",
         "status",
         "updated_at",
     )
-    list_filter = ("status", "subject", "academic_year")
+    list_filter = ("status", "subject", "academic_year", "term")
     search_fields = ("title", "teacher__username", "classroom__name")
-    list_select_related = ("subject", "teacher", "classroom", "academic_year")
+    list_select_related = ("subject", "teacher", "classroom", "academic_year", "term")
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "teacher":
@@ -176,93 +174,4 @@ class QuizAttemptAdmin(BaseModelAdminMixin, admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "student":
             kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.STUDENT)
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
-@admin.register(Exam)
-class ExamAdmin(BaseModelAdminMixin, admin.ModelAdmin):
-    list_display = (
-        "title",
-        "subject",
-        "teacher",
-        "classroom",
-        "start_time",
-        "end_time",
-        "status",
-        "updated_at",
-    )
-    list_filter = ("status", "subject", "academic_year")
-    search_fields = ("title", "teacher__username", "classroom__name")
-    list_select_related = ("subject", "teacher", "classroom", "academic_year")
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "teacher":
-            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.TEACHER)
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
-@admin.register(ExamAttempt)
-class ExamAttemptAdmin(BaseModelAdminMixin, admin.ModelAdmin):
-    list_display = (
-        "exam",
-        "student",
-        "score",
-        "is_completed",
-        "start_time",
-        "updated_at",
-    )
-    list_filter = ("is_completed", "exam")
-    search_fields = ("student__username", "exam__title")
-    list_select_related = ("exam", "student")
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "student":
-            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.STUDENT)
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
-@admin.register(Grade)
-class GradeAdmin(BaseModelAdminMixin, admin.ModelAdmin):
-    list_display = (
-        "student",
-        "subject",
-        "term",
-        "daily_score",
-        "midterm_score",
-        "final_score",
-        "total_score",
-        "grade_letter",
-        "updated_at",
-    )
-    list_filter = ("term", "subject")
-    search_fields = ("student__username", "subject__name")
-    list_select_related = ("student", "subject", "term", "teacher")
-    readonly_fields = ("total_score", "grade_letter")
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "student":
-            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.STUDENT)
-        elif db_field.name == "teacher":
-            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.TEACHER)
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
-@admin.register(ReportCard)
-class ReportCardAdmin(BaseModelAdminMixin, admin.ModelAdmin):
-    list_display = ("student", "term", "generated_by", "generated_at", "updated_at")
-    list_filter = ("term",)
-    search_fields = ("student__username", "student__first_name", "student__last_name")
-    list_select_related = ("student", "term", "generated_by")
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "student":
-            kwargs["queryset"] = CustomUser.objects.filter(job=JobChoices.STUDENT)
-        elif db_field.name == "generated_by":
-            kwargs["queryset"] = CustomUser.objects.filter(
-                job__in=[
-                    JobChoices.TEACHER,
-                    JobChoices.ADMINISTRATOR,
-                    JobChoices.DEVELOPER,
-                ]
-            )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
