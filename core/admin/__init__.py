@@ -22,6 +22,7 @@ from .learning import (
 )
 from .assessment import AssessmentAdmin
 from .journal import TeacherJournalAdmin, StudentJournalAdmin
+from .log import DeveloperLogAdmin
 
 __all__ = [
     "CustomUserAdmin",
@@ -46,4 +47,5 @@ __all__ = [
     "AssessmentAdmin",
     "TeacherJournalAdmin",
     "StudentJournalAdmin",
+    "DeveloperLogAdmin",
 ]

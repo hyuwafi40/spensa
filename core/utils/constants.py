@@ -146,5 +146,13 @@ class JournalModuleChoices(models.TextChoices):
     OTHER = "other", "Lainnya"
 
 
+class LogLevelChoices(models.TextChoices):
+    DEBUG = "debug", "Debug"
+    INFO = "info", "Info"
+    WARNING = "warning", "Warning"
+    ERROR = "error", "Error"
+    CRITICAL = "critical", "Critical"
+
+
 TEACHER_LIMIT = {"job": JobChoices.TEACHER}
 STUDENT_LIMIT = {"job": JobChoices.STUDENT}
