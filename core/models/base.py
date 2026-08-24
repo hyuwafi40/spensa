@@ -1,4 +1,5 @@
 from django.db import models
+from core.utils.constants import JournalActivityChoices, JournalModuleChoices
 from core.utils.services import generate_unique_slug
 
 
@@ -25,3 +26,23 @@ class SlugMixin(models.Model):
 
     def get_slug_source(self):
         raise NotImplementedError("Subclass must implement get_slug_source()")
+
+
+class BaseJournal(TimeStampedMixin):
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Waktu Aktivitas")
+    activity = models.CharField(max_length=20, choices=JournalActivityChoices.choices)
+    module = models.CharField(max_length=50, choices=JournalModuleChoices.choices)
+    target_name = models.CharField(max_length=255, blank=True)
+    reference_id = models.PositiveBigIntegerField(null=True, blank=True)
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        abstract = True
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["module", "activity"]),
+            models.Index(fields=["created_at"]),
+        ]
+
+    def __str__(self):
+        return f"{self.get_activity_display()} - {self.get_module_display()} - {self.target_name}"

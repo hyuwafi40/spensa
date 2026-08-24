@@ -122,3 +122,35 @@ class ExamStatusChoices(models.TextChoices):
     PUBLISHED = "Published", "Diterbitkan"
     ONGOING = "Ongoing", "Sedang Berlangsung"
     FINISHED = "Finished", "Selesai"
+
+
+class JournalActivityChoices(models.TextChoices):
+    CREATE = "create", "Membuat"
+    UPDATE = "update", "Memperbarui"
+    DELETE = "delete", "Menghapus"
+    SUBMIT = "submit", "Mengumpulkan"
+    GRADE = "grade", "Menilai"
+    RETURN = "return", "Mengembalikan"
+    PUBLISH = "publish", "Menerbitkan"
+    ATTEMPT = "attempt", "Mengerjakan"
+    VIEW = "view", "Melihat"
+    LOGIN = "login", "Masuk"
+    LOGOUT = "logout", "Keluar"
+
+
+class JournalModuleChoices(models.TextChoices):
+    MATERIAL = "material", "Materi"
+    ASSIGNMENT = "assignment", "Tugas"
+    ASSIGNMENT_SUBMISSION = "assignment_submission", "Pengumpulan Tugas"
+    QUESTION_BANK = "question_bank", "Bank Soal"
+    QUESTION = "question", "Soal"
+    QUIZ = "quiz", "Kuis"
+    QUIZ_ATTEMPT = "quiz_attempt", "Percobaan Kuis"
+    EXAM = "exam", "Ujian"
+    EXAM_ATTEMPT = "exam_attempt", "Percobaan Ujian"
+    GRADE = "grade", "Nilai"
+    REPORT_CARD = "report_card", "Rapor"
+    SCHOOL = "school", "Sekolah"
+    BRAND = "brand", "Brand"
+    PROFILE = "profile", "Profil"
+    OTHER = "other", "Lainnya"

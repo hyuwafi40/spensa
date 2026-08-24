@@ -64,3 +64,26 @@ def validate_student(user):
         raise ValidationError("Student harus dipilih.")
     if user.job != "student":
         raise ValidationError("User harus memiliki job Student.")
+
+
+def record_journal(user, activity, module, target_name="", reference_id=None, notes=""):
+    from core.models.journal import TeacherJournal, StudentJournal
+
+    if user.job == "teacher":
+        TeacherJournal.objects.create(
+            teacher=user,
+            activity=activity,
+            module=module,
+            target_name=target_name,
+            reference_id=reference_id,
+            notes=notes,
+        )
+    elif user.job == "student":
+        StudentJournal.objects.create(
+            student=user,
+            activity=activity,
+            module=module,
+            target_name=target_name,
+            reference_id=reference_id,
+            notes=notes,
+        )

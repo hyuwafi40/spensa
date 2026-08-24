@@ -24,6 +24,7 @@ from .learning import (
     GradeAdmin,
     ReportCardAdmin,
 )
+from .journal import TeacherJournalAdmin, StudentJournalAdmin
 
 __all__ = [
     "CustomUserAdmin",
@@ -49,4 +50,6 @@ __all__ = [
     "ExamAttemptAdmin",
     "GradeAdmin",
     "ReportCardAdmin",
+    "TeacherJournalAdmin",
+    "StudentJournalAdmin",
 ]
