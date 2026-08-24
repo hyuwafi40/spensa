@@ -1,10 +1,11 @@
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from core.models.account import CustomUser
 from core.models.academic import ActiveYear, Subject
 from core.models.base import TimeStampedMixin
 from core.utils.calculations import calculate_daily_score, calculate_grade
-from core.utils.constants import JobChoices
+from core.utils.constants import TEACHER_LIMIT, STUDENT_LIMIT
 from core.utils.services import validate_student, validate_teacher
 
 
@@ -12,7 +13,7 @@ class Assessment(TimeStampedMixin):
     student = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        limit_choices_to={"job": JobChoices.STUDENT},
+        limit_choices_to=STUDENT_LIMIT,
         related_name="assessments",
     )
     subject = models.ForeignKey(
@@ -28,7 +29,7 @@ class Assessment(TimeStampedMixin):
     teacher = models.ForeignKey(
         CustomUser,
         on_delete=models.PROTECT,
-        limit_choices_to={"job": JobChoices.TEACHER},
+        limit_choices_to=TEACHER_LIMIT,
         related_name="graded_assessments",
     )
     daily_score = models.DecimalField(
@@ -60,9 +61,17 @@ class Assessment(TimeStampedMixin):
     def clean(self):
         validate_student(self.student)
         validate_teacher(self.teacher)
+        if not self.student_id:
+            raise ValidationError("Student harus dipilih.")
+        if not self.subject_id:
+            raise ValidationError("Subject harus dipilih.")
+        if not self.active_year_id:
+            raise ValidationError("Active Year harus dipilih.")
+        if not self.teacher_id:
+            raise ValidationError("Teacher harus dipilih.")
 
     def save(self, *args, **kwargs):
-        self.clean()
+        self.full_clean()
         self.daily_score = calculate_daily_score(
             self.student,
             self.subject,
