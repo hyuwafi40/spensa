@@ -1,0 +1,20 @@
+<div class="card breadcrumb-card">
+    <div class="breadcrumb">
+        <i class="fa-solid fa-house"></i>
+        <i class="fa-solid fa-chevron-right"></i>
+        {% if breadcrumb_items %}
+            {% for item in breadcrumb_items %}
+                {% if item.url %}
+                    <a href="{{ item.url }}">{{ item.label }}</a>
+                {% else %}
+                    <span>{{ item.label }}</span>
+                {% endif %}
+                {% if not forloop.last %}
+                    <i class="fa-solid fa-chevron-right"></i>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <span>Dashboard</span>
+        {% endif %}
+    </div>
+</div>

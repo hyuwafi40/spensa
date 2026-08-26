@@ -1,0 +1,14 @@
+<div class="toast-wrapper" id="toastArea">
+    {% for message in messages %}
+        <div class="toast-box"
+             data-toast-type="{{ message.tags }}"
+             data-toast-title="{{ message.tags|title }}">
+            <div class="toast-head">
+                <span><i class="fa-solid fa-circle-info"></i> {{ message.tags|title }}</span>
+                <i class="fa-solid fa-xmark toast-close"></i>
+            </div>
+            <div class="toast-content">{{ message }}</div>
+            <div class="toast-progress-bar"></div>
+        </div>
+    {% endfor %}
+</div>

@@ -1,12 +1,11 @@
-{% extends "core/base.html" %}
-{% block title %}Dashboard{% endblock %}
-{% block heading %}
-    <h1>Dashboard Core</h1>
-{% endblock %}
-{% block content %}
-    <p>Selamat datang di halaman utama core.</p>
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="0; url={% url 'login' %}">
+        <title>Redirecting...</title>
+    </head>
+    <body>
+        <p>Redirecting...</p>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="grid-cards">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Total Pengguna</span></div>
+            <div class="card-value">{{ user_count }}</div>
+            <div class="card-desc">Guru: {{ teacher_count }} | Siswa: {{ student_count }}</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Akademik</span></div>
+            <div class="card-value">{{ subject_count }} / {{ classroom_count }}</div>
+            <div class="card-desc">Mapel & Kelas</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Tahun Ajaran Aktif</span></div>
+            <div class="card-value">{{ active_year.year }}</div>
+            <div class="card-desc">{{ active_year.term }}</div>
+        </div>
+    </div>
+    <div class="panel-container">
+        <div class="panel-header">Kelas Aktif Terbaru</div>
+        <ul class="list-group dashboard-panel">
+            {% for ac in active_classrooms %}
+                <li class="list-group-item">{{ ac.classroom }} - {{ ac.teacher.get_full_name|default:ac.teacher.username }}</li>
+            {% empty %}
+                <li class="list-group-item">Tidak ada data.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="panel-container">
+        <div class="panel-header">Mata Pelajaran Aktif Terbaru</div>
+        <ul class="list-group dashboard-panel">
+            {% for as in active_subjects %}
+                <li class="list-group-item">{{ as.subject.name }} - {{ as.classroom }} - {{ as.teacher.get_full_name|default:as.teacher.username }}</li>
+            {% empty %}
+                <li class="list-group-item">Tidak ada data.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

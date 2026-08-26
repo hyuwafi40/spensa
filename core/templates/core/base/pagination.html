@@ -1,0 +1,43 @@
+{% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a class="page-btn"
+               href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"><i class="fa-solid fa-chevron-left"></i></a>
+        {% else %}
+            <button class="page-btn" disabled>
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+        {% endif %}
+        {% if page_range_elided %}
+            {% for num in page_range_elided %}
+                {% if num == "…" %}
+                    <span class="page-ellipsis">…</span>
+                {% else %}
+                    {% if page_obj.number == num %}
+                        <button class="page-btn active">{{ num }}</button>
+                    {% else %}
+                        <a class="page-btn"
+                           href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <button class="page-btn active">{{ num }}</button>
+                {% else %}
+                    <a class="page-btn"
+                       href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a class="page-btn"
+               href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"><i class="fa-solid fa-chevron-right"></i></a>
+        {% else %}
+            <button class="page-btn" disabled>
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        {% endif %}
+    </div>
+{% endif %}

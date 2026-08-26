@@ -5,9 +5,7 @@ from core.models.brand import Brand, School
 
 
 @admin.register(Brand)
-class BrandAdmin(BaseModelAdminMixin, admin.ModelAdmin):
-    list_display = ("name", "version", "developer", "updated_at")
-    search_fields = ("name", "developer")
+class BrandAdmin(BaseModelAdminMixin, SingletonModelAdmin):
     readonly_fields = ("slug",)
 
 

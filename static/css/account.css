@@ -1,0 +1,44 @@
+.account-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.form-error {
+    color: var(--danger);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.page-info {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 0 8px;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 24px;
+}
+
+.modal-description {
+    color: var(--text-muted);
+}

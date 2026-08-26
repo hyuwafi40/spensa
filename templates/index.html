@@ -4,26 +4,145 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
+        <title>Login - {{ brand.name|default:school.name|default:"EduCampus Pro" }}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="{% static 'css/login.css' %}">
     </head>
     <body>
-        <h1>Login</h1>
-        <form method="post" action="">
-            {% csrf_token %}
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
-            <br>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-            <br>
-            <button type="submit">Masuk</button>
-        </form>
-        {% if messages %}
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
-        {% endif %}
+        <div class="login-page">
+            <div class="login-form-section">
+                <div class="login-form-wrapper">
+                    {% if brand.logo %}
+                        <img src="{{ brand.logo }}"
+                             alt="Logo"
+                             class="login-brand-logo"
+                             loading="lazy">
+                    {% else %}
+                        <i class="fa-solid fa-graduation-cap login-brand-icon"></i>
+                    {% endif %}
+                    <h1 class="login-title">Selamat Datang</h1>
+                    <p class="login-subtitle">{{ school.name|default:"Sekolah" }}</p>
+                    {% if messages %}
+                        <div class="login-messages">
+                            {% for message in messages %}
+                                <div class="login-alert login-alert-{{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post" action="" class="login-form" id="loginForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                        <div class="form-field">
+                            <label for="username">Username</label>
+                            <input type="text"
+                                   name="username"
+                                   id="username"
+                                   class="form-input"
+                                   required
+                                   autofocus
+                                   autocomplete="username">
+                        </div>
+                        <div class="form-field">
+                            <label for="password">Password</label>
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="form-input"
+                                   required
+                                   autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="btn btn-primary login-submit">
+                            <i class="fa-solid fa-right-to-bracket"></i> Masuk
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="login-info-section">
+                <div class="login-info-wrapper">
+                    <h2 class="login-info-brand">{{ brand.name|default:"EduCampus Pro" }}</h2>
+                    {% if brand.version %}
+                        <span class="login-info-version">v{{ brand.version }}</span>
+                    {% endif %}
+                    {% if brand.description %}
+                        <p class="login-info-description">{{ brand.description }}</p>
+                    {% endif %}
+                    {% if brand.developer %}
+                        <p class="login-info-developer">Dikembangkan oleh {{ brand.developer }}</p>
+                    {% endif %}
+                    {% if brand.tahun %}
+                        <p class="login-info-developer">Tahun: {{ brand.tahun }}</p>
+                    {% endif %}
+                    <div class="login-school-details">
+                        <h3 class="login-info-school-name">{{ school.name|default:"Sekolah" }}</h3>
+                        {% if school.npsn %}<p><i class="fa-solid fa-hashtag"></i> NPSN: {{ school.npsn }}</p>{% endif %}
+                        {% if school.nss %}<p><i class="fa-solid fa-hashtag"></i> NSS: {{ school.nss }}</p>{% endif %}
+                        {% if school.address %}<p><i class="fa-solid fa-location-dot"></i> {{ school.address }}</p>{% endif %}
+                        {% if school.phone %}<p><i class="fa-solid fa-phone"></i> <a href="tel:{{ school.phone }}" class="login-link">{{ school.phone }}</a></p>{% endif %}
+                        {% if school.email %}<p><i class="fa-solid fa-envelope"></i> <a href="mailto:{{ school.email }}" class="login-link">{{ school.email }}</a></p>{% endif %}
+                        {% if school.website %}<p><i class="fa-solid fa-globe"></i> <a href="{{ school.website }}"
+    target="_blank"
+    rel="noopener"
+    class="login-link">{{ school.website }}</a></p>{% endif %}
+                        {% if school.accreditation %}<p><i class="fa-solid fa-award"></i> Akreditasi: {{ school.get_accreditation_display }}</p>{% endif %}
+                        {% if school.school_type %}<p><i class="fa-solid fa-school"></i> {{ school.get_school_type_display }}</p>{% endif %}
+                        {% if school.status %}<p><i class="fa-solid fa-circle-info"></i> {{ school.get_status_display }}</p>{% endif %}
+                        {% if school.headmaster_name %}<p><i class="fa-solid fa-user-tie"></i> Kepala Sekolah: {{ school.headmaster_name }}</p>{% endif %}
+                        {% if school.headmaster_nip %}<p><i class="fa-solid fa-id-card"></i> NIP: {{ school.headmaster_nip }}</p>{% endif %}
+                        {% if school.established_year %}<p><i class="fa-solid fa-calendar"></i> Didirikan: {{ school.established_year }}</p>{% endif %}
+                        {% if school.fax %}<p><i class="fa-solid fa-fax"></i> Fax: {{ school.fax }}</p>{% endif %}
+                        {% if school.postal_code %}<p><i class="fa-solid fa-mailbox"></i> Kode Pos: {{ school.postal_code }}</p>{% endif %}
+                        {% if school.province %}<p><i class="fa-solid fa-map"></i> Provinsi: {{ school.province }}</p>{% endif %}
+                        {% if school.city %}<p><i class="fa-solid fa-city"></i> Kota: {{ school.city }}</p>{% endif %}
+                        {% if school.district %}<p><i class="fa-solid fa-map-pin"></i> Kecamatan: {{ school.district }}</p>{% endif %}
+                        {% if school.village %}<p><i class="fa-solid fa-house"></i> Desa/Kelurahan: {{ school.village }}</p>{% endif %}
+                        {% if school.curriculum %}<p><i class="fa-solid fa-book"></i> Kurikulum: {{ school.curriculum }}</p>{% endif %}
+                        {% if school.since %}<p><i class="fa-solid fa-clock"></i> Sejak: {{ school.since }}</p>{% endif %}
+                    </div>
+                    <div class="login-socials">
+                        {% if brand.instagram %}
+                            <a href="{{ brand.instagram }}"
+                               target="_blank"
+                               rel="noopener"
+                               title="Instagram"
+                               class="login-social-link"><i class="fa-brands fa-instagram"></i></a>
+                        {% endif %}
+                        {% if brand.youtube %}
+                            <a href="{{ brand.youtube }}"
+                               target="_blank"
+                               rel="noopener"
+                               title="YouTube"
+                               class="login-social-link"><i class="fa-brands fa-youtube"></i></a>
+                        {% endif %}
+                        {% if brand.tiktok %}
+                            <a href="{{ brand.tiktok }}"
+                               target="_blank"
+                               rel="noopener"
+                               title="TikTok"
+                               class="login-social-link"><i class="fa-brands fa-tiktok"></i></a>
+                        {% endif %}
+                        {% if brand.facebook %}
+                            <a href="{{ brand.facebook }}"
+                               target="_blank"
+                               rel="noopener"
+                               title="Facebook"
+                               class="login-social-link"><i class="fa-brands fa-facebook"></i></a>
+                        {% endif %}
+                    </div>
+                    {% if school.logo %}
+                        <img src="{{ school.logo }}"
+                             alt="Logo Sekolah"
+                             class="login-school-logo"
+                             loading="lazy">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         <script src="{% static 'js/login.js' %}"></script>
     </body>
 </html>

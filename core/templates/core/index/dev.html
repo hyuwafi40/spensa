@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="grid-cards">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Total Users</span></div>
+            <div class="card-value">{{ user_count }}</div>
+            <div class="card-desc">Dev: {{ developer_count }} | Admin: {{ administrator_count }} | Teacher: {{ teacher_count }} | Student: {{ student_count }}</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Akademik</span></div>
+            <div class="card-value">{{ year_count }} / {{ term_count }}</div>
+            <div class="card-desc">{{ subject_count }} Mapel | {{ classroom_count }} Kelas</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Data Aktif</span></div>
+            <div class="card-value">{{ active_year_count }} / {{ active_subject_count }} / {{ active_classroom_count }}</div>
+            <div class="card-desc">{{ active_student_count }} Siswa Aktif</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Pembelajaran & Penilaian</span></div>
+            <div class="card-value">{{ material_count }} / {{ assignment_count }} / {{ quiz_count }}</div>
+            <div class="card-desc">{{ question_bank_count }} Bank Soal | {{ assessment_count }} Penilaian</div>
+        </div>
+    </div>
+    <div class="panel-container">
+        <div class="panel-header">Developer Logs Terbaru</div>
+        <ul class="list-group dashboard-panel">
+            {% for log in recent_logs %}
+                <li class="list-group-item">{{ log.created_at|date:"d M Y H:i" }} - <strong>{{ log.level }}</strong> - {{ log.event }}</li>
+            {% empty %}
+                <li class="list-group-item">Tidak ada log.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+<aside id="sidebar">
+    <div class="sidebar-header">
+        {% if brand.logo %}
+            <img src="{{ brand.logo }}" alt="Logo" class="sidebar-logo">
+        {% else %}
+            <i class="fa-solid fa-graduation-cap"></i>
+        {% endif %}
+        <span>{{ brand.name|default:school.name|default:"EduCampus Pro" }}</span>
+    </div>
+    <div class="sidebar-menu">
+        {% for category in menus %}
+            <div class="menu-category">{{ category.label }}</div>
+            {% for item in category.items %}
+                <a class="menu-item"
+                   href="{{ item.url }}"
+                   data-url-name="{{ item.url_name }}">
+                    <i class="fa-solid {{ item.icon }}"></i> {{ item.label }}
+                </a>
+            {% endfor %}
+        {% empty %}
+            <div class="menu-item"><i class="fa-solid fa-info-circle"></i> Menu tidak tersedia</div>
+        {% endfor %}
+    </div>
+</aside>

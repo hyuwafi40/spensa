@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="grid-cards">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Siswa yang Diampu</span></div>
+            <div class="card-value">{{ student_count }}</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Materi</span></div>
+            <div class="card-value">{{ material_count }}</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Tugas</span></div>
+            <div class="card-value">{{ assignment_count }}</div>
+            <div class="card-desc">{{ pending_submissions_count }} menunggu dinilai</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Kuis & Bank Soal</span></div>
+            <div class="card-value">{{ quiz_count }} / {{ question_bank_count }}</div>
+        </div>
+    </div>
+    <div class="panel-container">
+        <div class="panel-header">Mata Pelajaran Aktif</div>
+        <ul class="list-group dashboard-panel">
+            {% for as in active_subjects %}
+                <li class="list-group-item">{{ as.subject.name }} - {{ as.classroom }}</li>
+            {% empty %}
+                <li class="list-group-item">Tidak ada jadwal mengajar.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="panel-container">
+        <div class="panel-header">Kelas Wali</div>
+        <ul class="list-group dashboard-panel">
+            {% for ac in active_classrooms %}
+                <li class="list-group-item">{{ ac.classroom }} - Kuota {{ ac.quota }}</li>
+            {% empty %}
+                <li class="list-group-item">Tidak menjadi wali kelas.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="panel-container">
+        <div class="panel-header">Jurnal Terbaru</div>
+        <ul class="list-group dashboard-panel">
+            {% for j in recent_journals %}
+                <li class="list-group-item">{{ j.created_at|date:"d M Y H:i" }} - {{ j.activity }} {{ j.module }} - {{ j.target_name }}</li>
+            {% empty %}
+                <li class="list-group-item">Belum ada jurnal.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

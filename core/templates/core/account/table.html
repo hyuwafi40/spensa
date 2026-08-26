@@ -1,0 +1,61 @@
+<div class="card table-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Photo</th>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Job</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>
+                            {% if user.profile.photo %}
+                                <img src="{{ user.profile.photo }}" alt="Photo" class="account-avatar">
+                            {% else %}
+                                <img src="https://ui-avatars.com/api/?name={{ user.get_full_name|default:user.username|urlencode }}&background=2563eb&color=fff"
+                                     alt="Avatar"
+                                     class="account-avatar">
+                            {% endif %}
+                        </td>
+                        <td class="font-weight-600">{{ user.username }}</td>
+                        <td>{{ user.get_full_name|default:"-" }}</td>
+                        <td><span class="badge active">{{ user.get_job_display }}</span></td>
+                        <td class="text-center">
+                            <div class="btn-group justify-content-center">
+                                <a href="{% url 'core:account_update' user.pk %}"
+                                   class="btn btn-icon"
+                                   title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                <form method="post"
+                                      action="{% url 'core:account_reset_password' user.pk %}"
+                                      class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-icon" title="Reset Password">
+                                        <i class="fa-solid fa-key"></i>
+                                    </button>
+                                </form>
+                                <button type="button"
+                                        class="btn btn-icon btn-delete"
+                                        data-url="{% url 'core:account_delete' user.pk %}"
+                                        title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-state">Tidak ada data akun.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'core/base/pagination.html' %}
+</div>

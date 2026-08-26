@@ -1,0 +1,35 @@
+{% load static %}
+<header>
+    <div class="header-left">
+        <button class="icon-btn" id="sidebarToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+    <div class="header-right">
+        {% if request.user.is_authenticated %}
+            <div class="user-dropdown">
+                <div class="user-profile" id="profileToggleBtn">
+                    <img src="https://ui-avatars.com/api/?name={{ request.user.get_full_name|default:request.user.username|urlencode }}&background=2563eb&color=fff"
+                         alt="User">
+                    <span class="profile-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+                    <i class="fa-solid fa-chevron-down profile-chevron"></i>
+                </div>
+                <div class="dropdown-menu" id="profileDropdownMenu">
+                    <div class="dropdown-item dropdown-role">
+                        <i class="fa-solid fa-user-tag"></i> {{ request.user.get_job_display|default:"Pengguna" }}
+                    </div>
+                    <a class="dropdown-item" href="#"><i class="fa-regular fa-user"></i> Profil</a>
+                    <a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Pengaturan</a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item signout-button">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary">Masuk</a>
+        {% endif %}
+    </div>
+</header>

@@ -4,14 +4,34 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Spensa{% endblock %}</title>
-        {% block meta %}{% endblock %}
+        <title>{% block title %}{{ brand.name|default:school.name|default:"EduCampus Pro" }}{% endblock %}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/loading.css' %}">
         {% block extra_css %}{% endblock %}
     </head>
     <body>
-        {% block heading %}{% endblock %}
-        {% block content %}{% endblock %}
+        <div id="app">
+            {% include 'core/base/sidebar.html' %}
+            <div id="main-wrapper">
+                {% include 'core/base/navbar.html' %}
+                <main>
+                    {% include 'core/base/breadcrumb.html' %}
+                    {% block content %}{% endblock %}
+                    {% include 'core/base/footer.html' %}
+                </main>
+            </div>
+        </div>
+        {% include 'core/base/toast.html' %}
         {% block modal %}{% endblock %}
+        <script src="{% static 'js/main.js' %}" defer></script>
+        <script src="{% static 'js/loading.js' %}" defer></script>
         {% block extra_js %}{% endblock %}
     </body>
 </html>

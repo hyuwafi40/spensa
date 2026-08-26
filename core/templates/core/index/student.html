@@ -1,0 +1,73 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+    {% if classroom %}
+        <div class="grid-cards">
+            <div class="card">
+                <div class="card-header"><span class="card-title">Kelas</span></div>
+                <div class="card-value">{{ classroom.classroom }}</div>
+                <div class="card-desc">Wali: {{ classroom.teacher.get_full_name|default:classroom.teacher.username }}</div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">Materi Tersedia</span></div>
+                <div class="card-value">{{ materials|length }}</div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">Tugas Tersedia</span></div>
+                <div class="card-value">{{ assignments|length }}</div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">Kuis Tersedia</span></div>
+                <div class="card-value">{{ quizzes|length }}</div>
+            </div>
+        </div>
+        <div class="panel-container">
+            <div class="panel-header">Materi Terbaru</div>
+            <ul class="list-group dashboard-panel">
+                {% for m in materials %}
+                    <li class="list-group-item">{{ m.title }} - {{ m.subject.name }}</li>
+                {% empty %}
+                    <li class="list-group-item">Tidak ada materi.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="panel-container">
+            <div class="panel-header">Tugas Terbaru</div>
+            <ul class="list-group dashboard-panel">
+                {% for a in assignments %}
+                    <li class="list-group-item">{{ a.title }} - Deadline: {{ a.due_date|date:"d M Y" }}</li>
+                {% empty %}
+                    <li class="list-group-item">Tidak ada tugas.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <div class="card">
+            <div class="card-header"><span class="card-title">Status Kelas</span></div>
+            <div class="card-value">Belum terdaftar di kelas aktif</div>
+        </div>
+    {% endif %}
+    <div class="panel-container">
+        <div class="panel-header">Nilai Terbaru</div>
+        <ul class="list-group dashboard-panel">
+            {% for a in assessments %}
+                <li class="list-group-item">{{ a.subject.name }} - {{ a.total_score|default:"-" }} ({{ a.grade_letter|default:"-" }})</li>
+            {% empty %}
+                <li class="list-group-item">Belum ada nilai.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="panel-container">
+        <div class="panel-header">Jurnal Terbaru</div>
+        <ul class="list-group dashboard-panel">
+            {% for j in recent_journals %}
+                <li class="list-group-item">{{ j.created_at|date:"d M Y H:i" }} - {{ j.activity }} {{ j.module }} - {{ j.target_name }}</li>
+            {% empty %}
+                <li class="list-group-item">Belum ada jurnal.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

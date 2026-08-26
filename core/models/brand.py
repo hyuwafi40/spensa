@@ -8,8 +8,8 @@ from core.utils.constants import (
 )
 
 
-class Brand(TimeStampedMixin, SlugMixin):
-    name = models.CharField(max_length=150)
+class Brand(SingletonModel, TimeStampedMixin, SlugMixin):
+    name = models.CharField(max_length=150, default="")
     description = models.TextField(blank=True)
     version = models.CharField(max_length=50, blank=True)
     tahun = models.CharField(max_length=20, blank=True)
@@ -21,14 +21,14 @@ class Brand(TimeStampedMixin, SlugMixin):
     developer = models.CharField(max_length=150, default="Hamdan Yuwafi")
 
     def get_slug_source(self):
-        return self.name
+        return self.name or "brand"
 
     class Meta:
         verbose_name = "Brand"
         verbose_name_plural = "Brand"
 
     def __str__(self):
-        return self.name
+        return self.name or "Brand"
 
 
 class School(SingletonModel, TimeStampedMixin, SlugMixin):
