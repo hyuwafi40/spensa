@@ -1,0 +1,41 @@
+<div class="card table-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Student</th>
+                    <th>Gender</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for as in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td class="font-weight-600">{{ as.student.get_full_name|default:as.student.username }}</td>
+                        <td>{% if as.student.profile.gender %}{{ as.student.profile.get_gender_display }}{% else %}-{% endif %}</td>
+                        <td class="text-center">
+                            <div class="btn-group justify-content-center">
+                                <a href="{% url 'core:active_student_update' as.pk %}"
+                                   class="btn btn-icon"
+                                   title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button"
+                                        class="btn btn-icon btn-delete"
+                                        data-url="{% url 'core:active_student_delete' as.pk %}"
+                                        title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-state">Tidak ada siswa di kelas ini.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'core/base/pagination.html' %}
+</div>

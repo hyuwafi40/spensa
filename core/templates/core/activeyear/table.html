@@ -1,0 +1,59 @@
+<div class="card table-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Year</th>
+                    <th>Term</th>
+                    <th>Status</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activeyear in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td class="font-weight-600">{{ activeyear.year }}</td>
+                        <td>{{ activeyear.term.get_name_display }}</td>
+                        <td>
+                            {% if activeyear.is_active %}
+                                <span class="badge active">Aktif</span>
+                            {% else %}
+                                <span class="badge pending">Tidak Aktif</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group justify-content-center">
+                                <form method="post"
+                                      action="{% url 'core:active_year_toggle' activeyear.pk %}"
+                                      class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit"
+                                            class="btn btn-icon"
+                                            title="{% if activeyear.is_active %}Nonaktifkan{% else %}Aktifkan{% endif %}">
+                                        <i class="fa-solid fa-power-off"></i>
+                                    </button>
+                                </form>
+                                <a href="{% url 'core:active_year_update' activeyear.pk %}"
+                                   class="btn btn-icon"
+                                   title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button"
+                                        class="btn btn-icon btn-delete"
+                                        data-url="{% url 'core:active_year_delete' activeyear.pk %}"
+                                        title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="empty-state">Tidak ada data tahun ajaran aktif.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'core/base/pagination.html' %}
+</div>

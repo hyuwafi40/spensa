@@ -1,21 +1,23 @@
-const accountSearch = document.getElementById('accountSearch');
+const liveSearchInputs = document.querySelectorAll('.live-search');
 const deleteModal = document.getElementById('deleteModal');
 const deleteForm = document.getElementById('deleteForm');
 const deleteModalClose = document.getElementById('deleteModalClose');
 const deleteModalCancel = document.getElementById('deleteModalCancel');
 const deleteButtons = document.querySelectorAll('.btn-delete');
 
-if (accountSearch) {
-    accountSearch.addEventListener('input', () => {
-        const query = accountSearch.value.trim();
-        const url = new URL(window.location.href);
-        if (query) {
-            url.searchParams.set('q', query);
-        } else {
-            url.searchParams.delete('q');
-        }
-        url.searchParams.delete('page');
-        window.location.href = url.toString();
+if (liveSearchInputs.length) {
+    liveSearchInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            const query = input.value.trim();
+            const url = new URL(window.location.href);
+            if (query) {
+                url.searchParams.set('q', query);
+            } else {
+                url.searchParams.delete('q');
+            }
+            url.searchParams.delete('page');
+            window.location.href = url.toString();
+        });
     });
 }
 

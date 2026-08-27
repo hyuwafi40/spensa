@@ -1,0 +1,45 @@
+<div class="card table-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Active Year</th>
+                    <th>Subject</th>
+                    <th>Classroom</th>
+                    <th>Teacher</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activesubject in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td class="font-weight-600">{{ activesubject.active_year.year }} - {{ activesubject.active_year.term.get_name_display }}</td>
+                        <td>{{ activesubject.subject.name }}</td>
+                        <td>{{ activesubject.classroom }}</td>
+                        <td>{{ activesubject.teacher.get_full_name|default:activesubject.teacher.username }}</td>
+                        <td class="text-center">
+                            <div class="btn-group justify-content-center">
+                                <a href="{% url 'core:active_subject_update' activesubject.pk %}"
+                                   class="btn btn-icon"
+                                   title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button"
+                                        class="btn btn-icon btn-delete"
+                                        data-url="{% url 'core:active_subject_delete' activesubject.pk %}"
+                                        title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-state">Tidak ada data mata pelajaran aktif.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'core/base/pagination.html' %}
+</div>

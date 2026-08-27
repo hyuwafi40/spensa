@@ -1,0 +1,41 @@
+<div class="card table-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Grade</th>
+                    <th>Name</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for classroom in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td class="font-weight-600">{{ classroom.get_grade_display }}</td>
+                        <td>{{ classroom.name }}</td>
+                        <td class="text-center">
+                            <div class="btn-group justify-content-center">
+                                <a href="{% url 'core:classroom_update' classroom.pk %}"
+                                   class="btn btn-icon"
+                                   title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button"
+                                        class="btn btn-icon btn-delete"
+                                        data-url="{% url 'core:classroom_delete' classroom.pk %}"
+                                        title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-state">Tidak ada data kelas.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'core/base/pagination.html' %}
+</div>

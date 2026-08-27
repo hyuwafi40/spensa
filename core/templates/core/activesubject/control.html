@@ -5,11 +5,11 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text"
                        class="form-input live-search"
-                       id="accountSearch"
-                       placeholder="Cari username, nama, email..."
+                       id="activesubjectSearch"
+                       placeholder="Cari tahun, mapel, kelas, guru..."
                        value="{{ request.GET.q }}">
             </div>
         </div>
-        <a href="{% url 'core:account_create' %}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Akun</a>
+        <a href="{% url 'core:active_subject_create' %}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Mata Pelajaran Aktif</a>
     </div>
 </div>

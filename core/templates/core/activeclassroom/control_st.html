@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="controls-bar">
+        <div class="filter-group">
+            <div class="field-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text"
+                       class="form-input live-search"
+                       id="activestudentSearch"
+                       placeholder="Cari siswa..."
+                       value="{{ request.GET.q }}">
+            </div>
+        </div>
+        <div class="btn-group">
+            <a href="{% url 'core:active_classroom' %}" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+            <a href="{% url 'core:active_student_create' classroom.pk %}"
+               class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Siswa</a>
+        </div>
+    </div>
+</div>

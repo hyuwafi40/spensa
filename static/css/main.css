@@ -947,6 +947,43 @@ footer {
     padding: 0 8px;
 }
 
+.form-error {
+    color: var(--danger);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 24px;
+}
+
+.modal-description {
+    color: var(--text-muted);
+}
+
+.page-ellipsis {
+    color: var(--text-muted);
+    padding: 0 8px;
+}
+
 @media (max-width: 480px) {
     header {
         padding: 0 16px;

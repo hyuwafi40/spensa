@@ -7,10 +7,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from core.forms.account import CustomUserForm
 from core.models.account import CustomUser
 from core.utils.constants import JobChoices
-from core.views.base import RoleDashboardMixin
+from core.views.base import RoleDashboardMixin, ElidedPaginationMixin
 
 
-class AccountListView(RoleDashboardMixin, ListView):
+class AccountListView(RoleDashboardMixin, ElidedPaginationMixin, ListView):
     model = CustomUser
     template_name = "core/account.html"
     paginate_by = 10
@@ -28,17 +28,6 @@ class AccountListView(RoleDashboardMixin, ListView):
                 | queryset.filter(email__icontains=q)
             )
         return queryset.order_by("username")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        paginator = context["paginator"]
-        page_obj = context["page_obj"]
-        context["page_range_elided"] = paginator.get_elided_page_range(
-            number=page_obj.number,
-            on_each_side=1,
-            on_ends=1,
-        )
-        return context
 
 
 class AccountCreateView(RoleDashboardMixin, CreateView):
