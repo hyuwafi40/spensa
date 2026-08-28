@@ -2,37 +2,60 @@
 {% load static %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/info-card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 {% block content %}
     <div class="card">
         <div class="card-header">
             <span class="card-title">Edit Profil</span>
         </div>
-        <form method="post" action="" class="info-form-grid">
+        <form method="post" action="" class="pf-form">
             {% csrf_token %}
-            {{ user_form.non_field_errors }}
-            {% for field in user_form %}
-                <div class="form-field">
-                    <label>{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="form-error">{{ field.errors|striptags }}</div>
-                    {% endif %}
+            <section class="pf-section" aria-labelledby="pf-account-title">
+                <div class="pf-section-heading">
+                    <div class="pf-section-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div>
+                        <h2 id="pf-account-title">Data Akun</h2>
+                        <p>Informasi dasar untuk akun Anda.</p>
+                    </div>
                 </div>
-            {% endfor %}
-            {{ profile_form.non_field_errors }}
-            {% for field in profile_form %}
-                <div class="form-field">
-                    <label>{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="form-error">{{ field.errors|striptags }}</div>
-                    {% endif %}
+                <div class="pf-grid">
+                    {{ user_form.non_field_errors }}
+                    {% for field in user_form %}
+                        <div class="pf-field {{ field.field.widget.attrs.layout|default:'pf-field--full' }}">
+                            <label class="pf-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}<div class="pf-error">{{ field.errors|striptags }}</div>{% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Simpan</button>
+            </section>
+            <section class="pf-section" aria-labelledby="pf-detail-title">
+                <div class="pf-section-heading">
+                    <div class="pf-section-icon">
+                        <i class="fa-solid fa-address-card"></i>
+                    </div>
+                    <div>
+                        <h2 id="pf-detail-title">Detail Profil</h2>
+                        <p>Lengkapi informasi personal dan profesional Anda.</p>
+                    </div>
+                </div>
+                <div class="pf-grid">
+                    {{ profile_form.non_field_errors }}
+                    {% for field in profile_form %}
+                        <div class="pf-field {{ field.field.widget.attrs.layout|default:'pf-field--full' }}">
+                            <label class="pf-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}<div class="pf-error">{{ field.errors|striptags }}</div>{% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <div class="pf-actions">
                 <a href="{% url 'core:profile' %}" class="btn btn-outline">Batal</a>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Simpan Perubahan</button>
             </div>
         </form>
     </div>

@@ -18,7 +18,7 @@
                     <div class="dropdown-item dropdown-role">
                         <i class="fa-solid fa-user-tag"></i> {{ request.user.get_job_display|default:"Pengguna" }}
                     </div>
-                    <a class="dropdown-item" href="#"><i class="fa-regular fa-user"></i> Profil</a>
+                    <a class="dropdown-item" href="{% url 'core:profile' %}"><i class="fa-regular fa-user"></i> Profil</a>
                     <a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Pengaturan</a>
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
