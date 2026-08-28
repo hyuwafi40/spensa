@@ -59,6 +59,18 @@ from .activeclassroom import (
     ActiveStudentUpdateView,
     ActiveStudentDeleteView,
 )
+from .brand import (
+    BrandPageView,
+    BrandCreateView,
+    BrandUpdateView,
+)
+from .school import (
+    SchoolPageView,
+    SchoolCreateView,
+    SchoolUpdateView,
+)
+from .log import LogListView
+from .profile import ProfilePageView, ProfileUpdateView
 
 __all__ = [
     "IndexRedirectView",
@@ -104,4 +116,13 @@ __all__ = [
     "ActiveStudentCreateView",
     "ActiveStudentUpdateView",
     "ActiveStudentDeleteView",
+    "BrandPageView",
+    "BrandCreateView",
+    "BrandUpdateView",
+    "SchoolPageView",
+    "SchoolCreateView",
+    "SchoolUpdateView",
+    "LogListView",
+    "ProfilePageView",
+    "ProfileUpdateView",
 ]

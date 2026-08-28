@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/info-card.css' %}">
+{% endblock %}
+{% block content %}
+    {% if has_school %}
+        {% include 'core/school/overview.html' %}
+    {% else %}
+        {% include 'core/school/fallback.html' %}
+    {% endif %}
+{% endblock %}

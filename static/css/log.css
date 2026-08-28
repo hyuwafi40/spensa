@@ -1,0 +1,58 @@
+.log-level-debug {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+.log-level-info {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+.log-level-warning {
+    background: var(--warning-bg);
+    color: var(--warning);
+}
+
+.log-level-error {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.log-level-critical {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.log-detail-list p {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text-main);
+}
+
+.log-detail-list strong {
+    color: var(--primary-dark);
+}
+
+.log-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 12px;
+}
+
+.log-summary-text {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.log-summary-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--border);
+}
+
+.log-summary-detail {
+    color: var(--text-muted);
+}

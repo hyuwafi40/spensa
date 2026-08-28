@@ -1,7 +1,7 @@
 from django.db import models
 from core.models.account import CustomUser
 from core.models.base import TimeStampedMixin
-from core.utils.constants import LogLevelChoices
+from core.utils.constants import JournalActivityChoices, LogLevelChoices
 
 
 class DeveloperLog(TimeStampedMixin):
@@ -19,6 +19,12 @@ class DeveloperLog(TimeStampedMixin):
         blank=True,
         related_name="developer_logs",
     )
+    module = models.CharField(max_length=50, blank=True)
+    object_id = models.PositiveBigIntegerField(null=True, blank=True)
+    action = models.CharField(
+        max_length=20, choices=JournalActivityChoices.choices, blank=True
+    )
+    object_repr = models.CharField(max_length=255, blank=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     user_agent = models.TextField(blank=True)
     metadata = models.JSONField(default=dict, blank=True)
@@ -31,6 +37,7 @@ class DeveloperLog(TimeStampedMixin):
             models.Index(fields=["level"]),
             models.Index(fields=["status_code"]),
             models.Index(fields=["created_at"]),
+            models.Index(fields=["module", "action"]),
         ]
 
     def __str__(self):

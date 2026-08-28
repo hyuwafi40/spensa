@@ -1,0 +1,24 @@
+<div class="card">
+    <div class="log-summary">
+        <span class="log-summary-text">Log mencatat aktivitas sistem:</span>
+        <span class="badge log-level-debug">Debug</span>
+        <span class="badge log-level-info">Info</span>
+        <span class="badge log-level-warning">Warning</span>
+        <span class="badge log-level-error">Error</span>
+        <span class="badge log-level-critical">Critical</span>
+        <span class="log-summary-divider"></span>
+        <span class="log-summary-detail">Modul, Aksi, Objek, User, IP, Metadata</span>
+    </div>
+    <div class="controls-bar">
+        <div class="filter-group">
+            <div class="field-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text"
+                       class="form-input live-search"
+                       id="logSearch"
+                       placeholder="Cari event, module, aksi, user, path..."
+                       value="{{ request.GET.q }}">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,135 @@
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Informasi Brand</span>
+        <a href="{% url 'core:brand_update' %}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
+    </div>
+    <div class="logo-preview">
+        {% if brand.logo %}
+            <img src="{{ brand.logo }}" alt="Logo Brand">
+        {% else %}
+            <i class="fa-solid fa-image fa-3x logo-fallback-icon"></i>
+        {% endif %}
+    </div>
+    <div class="info-card-grid">
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-tag"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Nama Brand</span>
+                <span class="info-card-value">{{ brand.name|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-align-left"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Deskripsi</span>
+                <span class="info-card-value">{{ brand.description|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-code-branch"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Versi</span>
+                <span class="info-card-value">{{ brand.version|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-calendar"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Tahun</span>
+                <span class="info-card-value">{{ brand.tahun|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-image"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Logo</span>
+                <span class="info-card-value">
+                    {% if brand.logo %}
+                        <a href="{{ brand.logo }}" target="_blank" rel="noopener">{{ brand.logo }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Instagram</span>
+                <span class="info-card-value">
+                    {% if brand.instagram %}
+                        <a href="{{ brand.instagram }}" target="_blank" rel="noopener">{{ brand.instagram }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-brands fa-youtube"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">YouTube</span>
+                <span class="info-card-value">
+                    {% if brand.youtube %}
+                        <a href="{{ brand.youtube }}" target="_blank" rel="noopener">{{ brand.youtube }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-brands fa-tiktok"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">TikTok</span>
+                <span class="info-card-value">
+                    {% if brand.tiktok %}
+                        <a href="{{ brand.tiktok }}" target="_blank" rel="noopener">{{ brand.tiktok }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-brands fa-facebook"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Facebook</span>
+                <span class="info-card-value">
+                    {% if brand.facebook %}
+                        <a href="{{ brand.facebook }}" target="_blank" rel="noopener">{{ brand.facebook }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-user-gear"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Developer</span>
+                <span class="info-card-value">{{ brand.developer|default:"-" }}</span>
+            </div>
+        </div>
+    </div>
+</div>

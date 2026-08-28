@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/info-card.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">Edit Profil</span>
+        </div>
+        <form method="post" action="" class="info-form-grid">
+            {% csrf_token %}
+            {{ user_form.non_field_errors }}
+            {% for field in user_form %}
+                <div class="form-field">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="form-error">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {{ profile_form.non_field_errors }}
+            {% for field in profile_form %}
+                <div class="form-field">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="form-error">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Simpan</button>
+                <a href="{% url 'core:profile' %}" class="btn btn-outline">Batal</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

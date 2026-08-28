@@ -1,0 +1,221 @@
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Informasi Sekolah</span>
+        <a href="{% url 'core:school_update' %}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
+    </div>
+    <div class="logo-preview">
+        {% if school.logo %}
+            <img src="{{ school.logo }}" alt="Logo Sekolah">
+        {% else %}
+            <i class="fa-solid fa-school fa-3x logo-fallback-icon"></i>
+        {% endif %}
+    </div>
+    <div class="info-card-grid">
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-school"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Nama Sekolah</span>
+                <span class="info-card-value">{{ school.name|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Alamat</span>
+                <span class="info-card-value">{{ school.address|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-phone"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Telepon</span>
+                <span class="info-card-value">
+                    {% if school.phone %}<a href="tel:{{ school.phone }}">{{ school.phone }}</a>{% else %}-{% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Email</span>
+                <span class="info-card-value">
+                    {% if school.email %}<a href="mailto:{{ school.email }}">{{ school.email }}</a>{% else %}-{% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-globe"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Website</span>
+                <span class="info-card-value">
+                    {% if school.website %}<a href="{{ school.website }}" target="_blank" rel="noopener">{{ school.website }}</a>{% else %}-{% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-image"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Logo</span>
+                <span class="info-card-value">
+                    {% if school.logo %}<a href="{{ school.logo }}" target="_blank" rel="noopener">{{ school.logo }}</a>{% else %}-{% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-hashtag"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">NPSN</span>
+                <span class="info-card-value">{{ school.npsn|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-hashtag"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">NSS</span>
+                <span class="info-card-value">{{ school.nss|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-award"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Akreditasi</span>
+                <span class="info-card-value">{{ school.get_accreditation_display|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-school"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Jenis Sekolah</span>
+                <span class="info-card-value">{{ school.get_school_type_display|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Status</span>
+                <span class="info-card-value">{{ school.get_status_display|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Kepala Sekolah</span>
+                <span class="info-card-value">{{ school.headmaster_name|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-id-card"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">NIP Kepala Sekolah</span>
+                <span class="info-card-value">{{ school.headmaster_nip|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-calendar"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Tahun Berdiri</span>
+                <span class="info-card-value">{{ school.established_year|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-fax"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Fax</span>
+                <span class="info-card-value">{{ school.fax|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-mailbox"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Kode Pos</span>
+                <span class="info-card-value">{{ school.postal_code|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-map"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Provinsi</span>
+                <span class="info-card-value">{{ school.province|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-city"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Kota/Kabupaten</span>
+                <span class="info-card-value">{{ school.city|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-map-pin"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Kecamatan</span>
+                <span class="info-card-value">{{ school.district|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-house"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Desa/Kelurahan</span>
+                <span class="info-card-value">{{ school.village|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-book"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Kurikulum</span>
+                <span class="info-card-value">{{ school.curriculum|default:"-" }}</span>
+            </div>
+        </div>
+        <div class="info-card-item">
+            <div class="info-card-icon">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="info-card-content">
+                <span class="info-card-label">Tahun Ajaran Sejak</span>
+                <span class="info-card-value">{{ school.since|default:"-" }}</span>
+            </div>
+        </div>
+    </div>
+</div>

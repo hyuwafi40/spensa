@@ -154,5 +154,93 @@ class LogLevelChoices(models.TextChoices):
     CRITICAL = "critical", "Critical"
 
 
+class EmployeeStatusChoices(models.TextChoices):
+    PNS = "pns", "PNS"
+    HONORER = "honorer", "Honorer"
+    KONTRAK = "kontrak", "Kontrak"
+    TETAP = "tetap", "Tetap"
+
+
+class BloodTypeChoices(models.TextChoices):
+    A = "a", "A"
+    B = "b", "B"
+    AB = "ab", "AB"
+    O = "o", "O"
+    UNKNOWN = "unknown", "Tidak Diketahui"
+
+
+class ScholarshipStatusChoices(models.TextChoices):
+    NONE = "none", "Tidak Ada"
+    FULL = "full", "Beasiswa Penuh"
+    PARTIAL = "partial", "Beasiswa Parsial"
+    OTHER = "other", "Lainnya"
+
+
 TEACHER_LIMIT = {"job": JobChoices.TEACHER}
 STUDENT_LIMIT = {"job": JobChoices.STUDENT}
+
+COMMON_PROFILE_FIELDS = [
+    "code",
+    "photo",
+    "phone",
+    "address",
+    "gender",
+    "birth_date",
+    "birth_place",
+    "religion",
+]
+ROLE_PROFILE_FIELDS = {
+    JobChoices.DEVELOPER: [
+        "employee_id",
+        "bio",
+        "website",
+        "github",
+        "stack_overflow",
+    ],
+    JobChoices.ADMINISTRATOR: [
+        "position",
+        "institution",
+        "nip",
+        "employee_id",
+        "department",
+        "fax",
+        "employee_status",
+        "start_date",
+    ],
+    JobChoices.TEACHER: [
+        "nuptk",
+        "subject",
+        "position",
+        "institution",
+        "nip",
+        "employee_id",
+        "education_background",
+        "years_of_experience",
+        "certification",
+        "academic_degree",
+    ],
+    JobChoices.STUDENT: [
+        "nisn",
+        "nis",
+        "class_level",
+        "major",
+        "parent_name",
+        "parent_phone",
+        "nik",
+        "blood_type",
+        "height",
+        "weight",
+        "hobby",
+        "previous_school",
+        "graduation_year",
+        "counselor",
+        "scholarship_status",
+        "transportation",
+        "father_name",
+        "mother_name",
+        "father_phone",
+        "mother_phone",
+        "parent_address",
+        "guardian_name",
+    ],
+}

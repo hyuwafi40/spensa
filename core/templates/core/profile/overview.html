@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Informasi Profil</span>
+        <a href="{% url 'core:profile_update' %}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
+    </div>
+    <div class="logo-preview">
+        {% if profile.photo %}
+            <img src="{{ profile.photo }}" alt="Foto Profil">
+        {% else %}
+            <i class="fa-solid fa-user-circle fa-3x logo-fallback-icon"></i>
+        {% endif %}
+    </div>
+    <div class="info-card-grid">
+        {% for item in profile_fields %}
+            <div class="info-card-item">
+                <div class="info-card-icon">
+                    <i class="fa-solid {{ item.icon }}"></i>
+                </div>
+                <div class="info-card-content">
+                    <span class="info-card-label">{{ item.label }}</span>
+                    <span class="info-card-value">{{ item.value }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <p class="fallback-text">Belum ada informasi profil.</p>
+        {% endfor %}
+    </div>
+</div>

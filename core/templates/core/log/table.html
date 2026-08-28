@@ -1,0 +1,65 @@
+<div class="card table-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Waktu</th>
+                    <th>Level</th>
+                    <th>User</th>
+                    <th>Modul</th>
+                    <th>Aksi</th>
+                    <th>Objek</th>
+                    <th>Event</th>
+                    <th>Path</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>IP</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in page_obj %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>{{ log.created_at|date:"d M Y H:i" }}</td>
+                        <td><span class="badge log-level-{{ log.level|lower }}">{{ log.get_level_display }}</span></td>
+                        <td>{{ log.user.username|default:"-" }}</td>
+                        <td>{{ log.get_module_display|default:log.module|default:"-" }}</td>
+                        <td>{{ log.get_action_display|default:log.action|default:"-" }}</td>
+                        <td>{{ log.object_repr|default:"-" }}</td>
+                        <td>{{ log.event }}</td>
+                        <td>{{ log.path|default:"-" }}</td>
+                        <td>{{ log.method|default:"-" }}</td>
+                        <td>{{ log.status_code|default:"-" }}</td>
+                        <td>{{ log.ip_address|default:"-" }}</td>
+                        <td class="text-center">
+                            <button type="button"
+                                    class="btn btn-icon btn-log-detail"
+                                    data-level="{{ log.get_level_display }}"
+                                    data-event="{{ log.event }}"
+                                    data-path="{{ log.path|default:"-" }}"
+                                    data-method="{{ log.method|default:"-" }}"
+                                    data-status="{{ log.status_code|default:"-" }}"
+                                    data-user="{{ log.user.username|default:"-" }}"
+                                    data-module="{{ log.get_module_display|default:log.module|default:"-" }}"
+                                    data-action="{{ log.get_action_display|default:log.action|default:"-" }}"
+                                    data-object-repr="{{ log.object_repr|default:"-" }}"
+                                    data-ip="{{ log.ip_address|default:"-" }}"
+                                    data-user-agent="{{ log.user_agent|default:"-" }}"
+                                    data-metadata="{{ log.metadata|default:"{}" }}"
+                                    data-created="{{ log.created_at|date:"d M Y H:i:s" }}">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="13" class="empty-state">Tidak ada log aktivitas.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'core/base/pagination.html' %}
+</div>

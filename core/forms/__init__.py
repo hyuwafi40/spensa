@@ -6,6 +6,9 @@ from .classroom import ClassroomForm
 from .activeyear import ActiveYearForm
 from .activesubject import ActiveSubjectForm
 from .activeclassroom import ActiveClassroomForm, ActiveStudentForm
+from .brand import BrandForm
+from .school import SchoolForm
+from .profile import UserProfileForm, ProfileDetailForm
 
 __all__ = [
     "CustomUserForm",
@@ -17,4 +20,8 @@ __all__ = [
     "ActiveSubjectForm",
     "ActiveClassroomForm",
     "ActiveStudentForm",
+    "BrandForm",
+    "SchoolForm",
+    "UserProfileForm",
+    "ProfileDetailForm",
 ]

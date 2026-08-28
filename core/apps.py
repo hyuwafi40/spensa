@@ -8,3 +8,6 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         import core.signals
+        import core.logging
+
+        core.logging.register_signals()

@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/log.css' %}">
+{% endblock %}
+{% block content %}
+    {% include 'core/log/control.html' %}
+    {% include 'core/log/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/log/detail.html' %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/global.js' %}"></script>
+    <script src="{% static 'js/log.js' %}"></script>
+{% endblock %}

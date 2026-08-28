@@ -9,15 +9,15 @@ class DeveloperLogAdmin(BaseModelAdminMixin, admin.ModelAdmin):
     list_display = (
         "level",
         "event",
-        "path",
-        "method",
-        "status_code",
+        "module",
+        "action",
+        "object_repr",
         "user",
         "ip_address",
         "created_at",
     )
-    list_filter = ("level", "method", "status_code", "created_at")
-    search_fields = ("event", "path", "user__username", "ip_address")
+    list_filter = ("level", "method", "status_code", "module", "action", "created_at")
+    search_fields = ("event", "path", "user__username", "ip_address", "object_repr")
     list_select_related = ("user",)
     readonly_fields = [field.name for field in DeveloperLog._meta.fields]
 
